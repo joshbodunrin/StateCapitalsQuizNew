@@ -29,8 +29,38 @@ public class Question {
         this.id = id;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public void setCityOne(String cityOne) {
+        this.cityOne = cityOne;
+    }
+    public void setCityTwo(String cityTwo) {
+        this.cityTwo = cityTwo;
+    }
+
     public long getId(){
         return this.id;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public String getCapital() {
+        return this.capital;
+    }
+
+    public String getCityOne() {
+        return this.cityOne;
+    }
+
+    public String getCityTwo() {
+        return this.cityTwo;
     }
 
 

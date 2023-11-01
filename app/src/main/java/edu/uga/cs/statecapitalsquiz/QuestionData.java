@@ -1,5 +1,6 @@
 package edu.uga.cs.statecapitalsquiz;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import android.content.Context;
@@ -33,7 +34,7 @@ public class QuestionData {
 
     public void open() {
         db = questionDBHelpers.getWritableDatabase();
-        Log.d(DEBUG_TAG, "QuesitonData: db open");
+        Log.d(DEBUG_TAG, "QuestionData: db open");
     }
 
     public void close() {
@@ -86,5 +87,21 @@ public class QuestionData {
              }
         }
         return questions;
+    }
+
+    public Question storeQuestion(Question question) {
+
+        ContentValues values = new ContentValues();
+        values.put(QuestionDBHelpers.QUESTIONS_COLUMN_STATE, question.getState());
+        values.put(QuestionDBHelpers.QUESTIONS_COLUMN_CAPITAL, question.getCapital());
+        values.put(QuestionDBHelpers.QUESTIONS_COLUMN_CITYONE, question.getCityOne());
+        values.put(QuestionDBHelpers.QUESTIONS_COLUMN_CITYTWO, question.getCityTwo());
+
+        long id = db.insert(QuestionDBHelpers.TABLE_QUESTIONS,null, values);
+        question.setId(id);
+
+        Log.d(DEBUG_TAG, "Stored new question with id: " + String.valueOf(question.getId()));
+
+        return question;
     }
 }
