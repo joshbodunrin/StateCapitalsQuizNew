@@ -19,18 +19,18 @@ public class QuestionDBHelpers extends SQLiteOpenHelper {
     public static final String QUESTIONS_COLUMN_ID = "_id";
     public static final String QUESTIONS_COLUMN_STATE = "state";
     public static final String QUESTIONS_COLUMN_CAPITAL = "capital";
-    public static final String QUESTIONS_COLUMN_CITYONE = "city_one";
-    public static final String QUESTIONS_COLUMN_CITYTWO = "city_two";
+    public static final String QUESTIONS_COLUMN_CITYONE = "cityone";
+    public static final String QUESTIONS_COLUMN_CITYTWO = "citytwo";
 
     private static QuestionDBHelpers helperInstance;
 
     private static final String CREATE_QUESTIONS =
             "create table " + TABLE_QUESTIONS + " ( "
             + QUESTIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + QUESTIONS_COLUMN_STATE + "TEXT, "
-            + QUESTIONS_COLUMN_CAPITAL + "TEXT, "
-            + QUESTIONS_COLUMN_CITYONE + "TEXT, "
-            + QUESTIONS_COLUMN_CITYTWO + "TEXT"
+            + QUESTIONS_COLUMN_STATE + " TEXT, "
+            + QUESTIONS_COLUMN_CAPITAL + " TEXT, "
+            + QUESTIONS_COLUMN_CITYONE + " TEXT, "
+            + QUESTIONS_COLUMN_CITYTWO + " TEXT"
             + ")";
 
 
