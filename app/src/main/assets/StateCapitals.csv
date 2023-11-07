@@ -1,9 +1,9 @@
 State,Capital city,Second city,Third city,Statehood,Capital since,Size rank
-Alabama,Montgomery,BirminghamMobile,,1819,1846,2
+Alabama,Montgomery,Birmingham,Mobile,1819,1846,2
 Alaska,Juneau,Anchorage,Fairbanks,1959,1906,3
 Arizona,Phoenix,Tuscon,Scottsdale,1912,1889,1
 Arkansas,Little Rock,Fayetteville,Fort Smith,1836,1821,1
-California,Sacramento,San Franciso,Los Angeles,1850,1854,6
+California,Sacramento,San Francisco,Los Angeles,1850,1854,6
 Colorado,Denver,Aurora,Breckenridge,1876,1867,1
 Connecticut,Hartford,New Haven,Bridgeport,1788,1875,3
 Delaware,Dover,Newark,Wilmington,1787,1777,2
@@ -44,8 +44,8 @@ Tennessee,Nashville,Memphis,Knoxville,1796,1826,1
 Texas,Austin,Houston,Dallas,1845,1839,4
 Utah,Salt Lake City,Provo,West Jordan,1896,1858,1
 Vermont,Montpelier,Burlington,Colchester,1791,1805,6
-Virginia,Richmond,Virigina Beach,Chesapeake,1788,1780,4
+Virginia,Richmond,Virginia Beach,Chesapeake,1788,1780,4
 Washington,Olympia,Seattle,Tacoma,1889,1853,24
-West Virginia,Charleston,Huntingon,Morgantown,1863,1885,1
-Wisconsin,Madison,Miluwaukee,Green Bay,1848,1838,2
+West Virginia,Charleston,Huntington,Morgantown,1863,1885,1
+Wisconsin,Madison,Milwaukee,Green Bay,1848,1838,2
 Wyoming,Cheyenne,Casper,Laramie,1890,1869,1
