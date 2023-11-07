@@ -25,9 +25,9 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_QUIZ =
             "create table " + TABLE_QUIZ + " ( "
-            + QUIZ_COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + QUIZ_COLUMN_QUIZDATE + "TEXT , "
-            + QUIZ_COLUMN_RESULT + "TEXT "
+            + QUIZ_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + QUIZ_COLUMN_QUIZDATE + " TEXT , "
+            + QUIZ_COLUMN_RESULT + " TEXT"
             + ")";
 
     private QuizDBHelper( Context context ) {
