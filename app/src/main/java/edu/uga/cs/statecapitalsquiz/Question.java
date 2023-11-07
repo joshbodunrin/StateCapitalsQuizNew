@@ -3,7 +3,6 @@ package edu.uga.cs.statecapitalsquiz;
 public class Question {
 
     private long id;
-
     private String state;
     private String capital;
     private String cityOne;
