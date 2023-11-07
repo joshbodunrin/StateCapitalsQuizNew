@@ -6,12 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +31,7 @@ public class TakeQuiz extends Fragment {
     private static final String CAPITAL = "capitaal";
     private static final String CITY1 = "cityyy1";
     private static final String CITY2 = "cityyyy2";
+    private static final String DEBUG_TAG = "TakeQuizFragment";
 
     // TODO: Rename and change types of parameters
 
@@ -35,6 +41,10 @@ public class TakeQuiz extends Fragment {
     private RadioButton answerC;
     private Button nextButton;
     private Question currentQuestion;
+    private QuestionData questionData = null;
+    private ArrayList<Question> questionList;
+    private int questionNo;
+    private int correctNo;
 
 
     public TakeQuiz() {
@@ -88,10 +98,58 @@ public class TakeQuiz extends Fragment {
         answerB = view.findViewById(R.id.answerB);
         answerC = view.findViewById(R.id.answerC);
         nextButton = view.findViewById(R.id.nextButton);
-        state.setText(this.STATE);
-        answerA.setText(this.CAPITAL);
-        answerB.setText(this.CITY1);
-        answerC.setText(this.CITY2);
+
+        questionList = new ArrayList<Question>();
+
+        //get instance of questionData
+        questionData = new QuestionData(getActivity());
+
+        //open db to read all questions in db
+        questionData.open();
+
+
+        //get all questions using AsyncTask class methods
+        new TakeQuiz.QuestionDBReader().execute();
+
+        ArrayList<QuizQuestion> selected = (ArrayList<QuizQuestion>)selectQuestions(questionList);
+
+        state.setText(selected.get(0).getQuestion().getState());
+        answerA.setText(selected.get(0).getQuestion().getCapital());
+        answerB.setText(selected.get(0).getQuestion().getCityOne());
+        answerC.setText(selected.get(0).getQuestion().getCityTwo());
+    }
+    private ArrayList<QuizQuestion> selectQuestions(List<Question> questions){
+        QuizQuestion placeholder;
+        Quiz nullQuiz = new Quiz();
+        Collections.shuffle(questions);
+        ArrayList<QuizQuestion> selected = new ArrayList<>();
+        for(int i=0; i<6; i++){
+            placeholder = new QuizQuestion(questions.get(i).getCapital(), nullQuiz, questions.get(i));
+            selected.add(placeholder);
+        }
+        return selected;
+    }
+    private class QuestionDBReader extends AsyncTask<Void, List<Question>> {
+
+        @Override
+        protected List<Question> doInBackground(Void... params) {
+            List<Question> questions = questionData.retrieveAllQuestions();
+            Log.d(DEBUG_TAG, "QuestionDBReader: Quizzes retrieved from db");
+            return questions;
+
+        }
+
+        @Override
+        protected void onPostExecute(List<Question> questionsList) {
+            Log.d(DEBUG_TAG, "QuestionDBReader: quizList.size(): " + questionsList.size());
+            questionList.addAll(questionsList);
+
+            /*create recyclerAdapter and set it to quizzes that were just read
+            recyclerViewAdapter = new MyItemRecyclerViewAdapter(getActivity(), quizList);
+            recyclerView.setAdapter(recyclerViewAdapter);
+*/
+        }
+
     }
 
 }
