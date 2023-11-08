@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +37,10 @@ public class TakeQuiz extends Fragment {
 
     // TODO: Rename and change types of parameters
 
+    private TextView score;
+    private TextView qCounter;
     private TextView state;
+    private RadioGroup answersGroup;
     private RadioButton answerA;
     private RadioButton answerB;
     private RadioButton answerC;
@@ -47,8 +52,8 @@ public class TakeQuiz extends Fragment {
     private List<QuizQuestion> quizQuestions;
     //private Quiz quiz = new Quiz();
 
-    private int questionNo;
-    private int correctNo;
+    private int questionNo = 1;
+    private int correctNo = 0;
 
 
     public TakeQuiz() {
@@ -98,10 +103,14 @@ public class TakeQuiz extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         state = view.findViewById(R.id.questionText);
+        answersGroup = view.findViewById(R.id.answers);
         answerA = view.findViewById(R.id.answerA);
         answerB = view.findViewById(R.id.answerB);
         answerC = view.findViewById(R.id.answerC);
         nextButton = view.findViewById(R.id.nextButton);
+        qCounter = view.findViewById(R.id.questionCounter);
+        score = view.findViewById(R.id.scoreCounter);
+        nextButton.setOnClickListener(new nextQuestionButtonClickListener());
 
         questionList = new ArrayList<Question>();
         quizQuestions = new ArrayList<QuizQuestion>();
@@ -136,18 +145,43 @@ public class TakeQuiz extends Fragment {
             for(int i=0; i<6; i++){
                 Log.d(DEBUG_TAG, "adding a question maybe " + questionList.get(i).getCapital());
                 QuizQuestion placeholder = new QuizQuestion(questionList.get(i).getCapital(), nullQuiz, questionList.get(i));
-                Log.d(DEBUG_TAG, "placeuolder value: " + placeholder);
+                Log.d(DEBUG_TAG, "placeholder value: " + placeholder);
                 quizQuestions.add(placeholder);
                 Log.d(DEBUG_TAG, "added new question");
             }
-
-            state.setText(quizQuestions.get(0).getQuestion().getState());
-            answerA.setText(quizQuestions.get(0).getQuestion().getCapital());
-            answerB.setText(quizQuestions.get(0).getQuestion().getCityOne());
-            answerC.setText(quizQuestions.get(0).getQuestion().getCityTwo());
+            score.setText("Score: " + correctNo );
+            qCounter.setText("Question " + questionNo +"/6");
+            state.setText(quizQuestions.get(questionNo - 1).getQuestion().getState());
+            answerA.setText(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
+            answerB.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
+            answerC.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
 
         }
 
+    }
+
+    private class nextQuestionButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick( View v ) {
+            int id = answersGroup.getCheckedRadioButtonId();
+            if(id == -1)
+            {
+                Toast.makeText(v.getContext(), "Must Select an Answer!", Toast.LENGTH_LONG).show();
+            }
+            else if (questionNo < 6) {
+                    if (id == answerA.getId()) {
+                        correctNo++;
+                        score.setText("Score: " + correctNo);
+                    }
+                    questionNo++;
+                    qCounter.setText("Question " + questionNo + "/6");
+                    state.setText(quizQuestions.get(questionNo - 1).getQuestion().getState());
+                    answerA.setText(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
+                    answerB.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
+                    answerC.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
+                }
+
+        }
     }
 
 }
