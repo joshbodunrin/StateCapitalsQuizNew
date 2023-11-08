@@ -41,21 +41,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quiz, parent, false);
         return new ViewHolder(view);
     }
-/*
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-        Quiz quiz = mValues.get(position);
-        Log.d(DEBUG_TAG, "onBindViewHolder" + quiz);
-
-        holder.result = setText(quiz.getResult());
-        holder.date = setText(quiz.getDate());
-
-    }
-
- */
 
     @Override
     public int getItemCount() {

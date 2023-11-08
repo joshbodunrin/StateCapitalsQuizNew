@@ -42,7 +42,11 @@ public class TakeQuiz extends Fragment {
     private Button nextButton;
     private Question currentQuestion;
     private QuestionData questionData = null;
-    private ArrayList<Question> questionList;
+    private List<Question> questionList;
+
+    private List<QuizQuestion> quizQuestions;
+    //private Quiz quiz = new Quiz();
+
     private int questionNo;
     private int correctNo;
 
@@ -100,6 +104,7 @@ public class TakeQuiz extends Fragment {
         nextButton = view.findViewById(R.id.nextButton);
 
         questionList = new ArrayList<Question>();
+        quizQuestions = new ArrayList<QuizQuestion>();
 
         //get instance of questionData
         questionData = new QuestionData(getActivity());
@@ -111,24 +116,8 @@ public class TakeQuiz extends Fragment {
         //get all questions using AsyncTask class methods
         new TakeQuiz.QuestionDBReader().execute();
 
-        ArrayList<QuizQuestion> selected = (ArrayList<QuizQuestion>)selectQuestions(questionList);
+    }
 
-        state.setText(selected.get(0).getQuestion().getState());
-        answerA.setText(selected.get(0).getQuestion().getCapital());
-        answerB.setText(selected.get(0).getQuestion().getCityOne());
-        answerC.setText(selected.get(0).getQuestion().getCityTwo());
-    }
-    private ArrayList<QuizQuestion> selectQuestions(List<Question> questions){
-        QuizQuestion placeholder;
-        Quiz nullQuiz = new Quiz();
-        Collections.shuffle(questions);
-        ArrayList<QuizQuestion> selected = new ArrayList<>();
-        for(int i=0; i<6; i++){
-            placeholder = new QuizQuestion(questions.get(i).getCapital(), nullQuiz, questions.get(i));
-            selected.add(placeholder);
-        }
-        return selected;
-    }
     private class QuestionDBReader extends AsyncTask<Void, List<Question>> {
 
         @Override
@@ -140,14 +129,23 @@ public class TakeQuiz extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Question> questionsList) {
-            Log.d(DEBUG_TAG, "QuestionDBReader: quizList.size(): " + questionsList.size());
-            questionList.addAll(questionsList);
+        protected void onPostExecute(List<Question> questionList) {
+            Log.d(DEBUG_TAG, "QuestionDBReader: questionList.size(): " + questionList.size());
+            Quiz nullQuiz = new Quiz();
+            Collections.shuffle(questionList);
+            for(int i=0; i<6; i++){
+                Log.d(DEBUG_TAG, "adding a question maybe " + questionList.get(i).getCapital());
+                QuizQuestion placeholder = new QuizQuestion(questionList.get(i).getCapital(), nullQuiz, questionList.get(i));
+                Log.d(DEBUG_TAG, "placeuolder value: " + placeholder);
+                quizQuestions.add(placeholder);
+                Log.d(DEBUG_TAG, "added new question");
+            }
 
-            /*create recyclerAdapter and set it to quizzes that were just read
-            recyclerViewAdapter = new MyItemRecyclerViewAdapter(getActivity(), quizList);
-            recyclerView.setAdapter(recyclerViewAdapter);
-*/
+            state.setText(quizQuestions.get(0).getQuestion().getState());
+            answerA.setText(quizQuestions.get(0).getQuestion().getCapital());
+            answerB.setText(quizQuestions.get(0).getQuestion().getCityOne());
+            answerC.setText(quizQuestions.get(0).getQuestion().getCityTwo());
+
         }
 
     }
