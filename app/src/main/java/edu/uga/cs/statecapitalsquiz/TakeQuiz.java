@@ -170,7 +170,20 @@ public class TakeQuiz extends Fragment {
                 Toast.makeText(v.getContext(), "Must Select an Answer!", Toast.LENGTH_LONG).show();
             }
             else if (questionNo < 6) {
-                RadioButton selectedButton = v.findViewById(id);
+                // just checking what id is equal not sure why findViewById wasnt working
+                // probably some weird android timing thing with the views.
+                RadioButton selectedButton;
+                if (id == answerA.getId()) {
+                    selectedButton = answerA;
+                } else if (id == answerB.getId()) {
+                    selectedButton = answerB;
+                } else {
+                    selectedButton = answerC;
+                }
+                Log.d(DEBUG_TAG, "a: " + answerA.getId());
+                Log.d(DEBUG_TAG, "b: " + answerB.getId());
+                Log.d(DEBUG_TAG, "c: " + answerC.getId());
+                //RadioButton selectedButton = v.findViewById(id);
                     if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
                         correctNo++;
                         score.setText("Score: " + correctNo);
