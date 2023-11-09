@@ -73,7 +73,7 @@ public class QuestionData {
                         question.setId(id);
 
                         questions.add(question);
-                        Log.d(DEBUG_TAG, "Retrieved question: " + question);
+                        Log.d(DEBUG_TAG, "Retrieved question: " + question.getState());
                     }
                 }
             }
