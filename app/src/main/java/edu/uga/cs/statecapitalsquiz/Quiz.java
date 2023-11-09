@@ -41,6 +41,14 @@ public class Quiz {
     public void setId(long id) {
         this.id = id;
     }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 }
 
 

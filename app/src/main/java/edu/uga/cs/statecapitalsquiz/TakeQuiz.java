@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +29,6 @@ import java.util.List;
  */
 public class TakeQuiz extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String STATE = "Texas";
     private static final String CAPITAL = "capitaal";
@@ -35,7 +36,6 @@ public class TakeQuiz extends Fragment {
     private static final String CITY2 = "cityyyy2";
     private static final String DEBUG_TAG = "TakeQuizFragment";
 
-    // TODO: Rename and change types of parameters
 
     private TextView score;
     private TextView qCounter;
@@ -50,7 +50,7 @@ public class TakeQuiz extends Fragment {
     private List<Question> questionList;
 
     private List<QuizQuestion> quizQuestions;
-    //private Quiz quiz = new Quiz();
+    private QuizData quizData = null;
 
     private int questionNo = 1;
     private int correctNo = 0;
@@ -151,10 +151,15 @@ public class TakeQuiz extends Fragment {
             }
             score.setText("Score: " + correctNo );
             qCounter.setText("Question " + questionNo +"/6");
+            List<String> questionAnswers = new ArrayList<>();
+            questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
+            questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
+            questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
+            Collections.shuffle(questionAnswers);
             state.setText(quizQuestions.get(questionNo - 1).getQuestion().getState());
-            answerA.setText(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
-            answerB.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
-            answerC.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
+            answerA.setText(questionAnswers.get(0));
+            answerB.setText(questionAnswers.get(1));
+            answerC.setText(questionAnswers.get(2));
 
         }
 
@@ -200,8 +205,46 @@ public class TakeQuiz extends Fragment {
                     answerA.setText(questionAnswers.get(0));
                     answerB.setText(questionAnswers.get(1));
                     answerC.setText(questionAnswers.get(2));
+                } else {
+                RadioButton selectedButton;
+                if (id == answerA.getId()) {
+                    selectedButton = answerA;
+                } else if (id == answerB.getId()) {
+                    selectedButton = answerB;
+                } else {
+                    selectedButton = answerC;
                 }
+                Log.d(DEBUG_TAG, "a: " + answerA.getId());
+                Log.d(DEBUG_TAG, "b: " + answerB.getId());
+                Log.d(DEBUG_TAG, "c: " + answerC.getId());
+                //RadioButton selectedButton = v.findViewById(id);
+                if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
+                    correctNo++;
+                }
+                quizData = new QuizData(v.getContext());
+                quizData.open();
+                quizQuestions.get(0).getQuiz().setDate(Calendar.getInstance().getTime().toString());
+                quizQuestions.get(0).getQuiz().setResult("Score:"+correctNo+"/6");
+                //new QuizDBwriter().execute(quizQuestions.get(0).getQuiz());
+                quizData.close();
+                FragmentManager fragmentManager = getParentFragmentManager();
+                fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, new FinishedQuizFragment(correctNo)).addToBackStack("main screen" ).commit();
 
+            }
+
+        }
+        public class QuizDBwriter extends AsyncTask<Quiz, Quiz> {
+
+            @Override
+            protected Quiz doInBackground(Quiz... quizzes) {
+                quizData.storeQuiz(quizzes[0]);
+                return quizzes[0];
+            }
+
+            @Override
+            protected void onPostExecute(Quiz quiz) {
+                //dont think we need anything for this occasion
+            }
         }
     }
 
