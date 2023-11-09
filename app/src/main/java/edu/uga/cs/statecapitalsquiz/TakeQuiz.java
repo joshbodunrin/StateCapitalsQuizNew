@@ -164,21 +164,29 @@ public class TakeQuiz extends Fragment {
         @Override
         public void onClick( View v ) {
             int id = answersGroup.getCheckedRadioButtonId();
+            Log.d(DEBUG_TAG, "id: " + id);
             if(id == -1)
             {
                 Toast.makeText(v.getContext(), "Must Select an Answer!", Toast.LENGTH_LONG).show();
             }
             else if (questionNo < 6) {
-                    if (id == answerA.getId()) {
+                RadioButton selectedButton = v.findViewById(id);
+                    if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
                         correctNo++;
                         score.setText("Score: " + correctNo);
                     }
                     questionNo++;
                     qCounter.setText("Question " + questionNo + "/6");
+
+                    List<String> questionAnswers = new ArrayList<>();
+                    questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
+                    questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
+                    questionAnswers.add(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
+                    Collections.shuffle(questionAnswers);
                     state.setText(quizQuestions.get(questionNo - 1).getQuestion().getState());
-                    answerA.setText(quizQuestions.get(questionNo - 1).getQuestion().getCapital());
-                    answerB.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityOne());
-                    answerC.setText(quizQuestions.get(questionNo - 1).getQuestion().getCityTwo());
+                    answerA.setText(questionAnswers.get(0));
+                    answerB.setText(questionAnswers.get(1));
+                    answerC.setText(questionAnswers.get(2));
                 }
 
         }
