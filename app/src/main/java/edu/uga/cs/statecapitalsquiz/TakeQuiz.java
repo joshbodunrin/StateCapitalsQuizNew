@@ -185,10 +185,6 @@ public class TakeQuiz extends Fragment {
                 } else {
                     selectedButton = answerC;
                 }
-                Log.d(DEBUG_TAG, "a: " + answerA.getId());
-                Log.d(DEBUG_TAG, "b: " + answerB.getId());
-                Log.d(DEBUG_TAG, "c: " + answerC.getId());
-                //RadioButton selectedButton = v.findViewById(id);
                     if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
                         correctNo++;
                         score.setText("Score: " + correctNo);
@@ -227,7 +223,7 @@ public class TakeQuiz extends Fragment {
                 quizQuestions.get(0).getQuiz().setResult("Score:"+correctNo+"/6");
                 Log.d(DEBUG_TAG, "quiz: " + quizQuestions.get(0).getQuiz().toString());
                 new QuizDBwriter().execute(quizQuestions.get(0).getQuiz());
-                quizData.close();
+
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, new FinishedQuizFragment(correctNo)).addToBackStack("main screen" ).commit();
 
