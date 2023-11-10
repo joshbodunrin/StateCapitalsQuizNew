@@ -221,30 +221,32 @@ public class TakeQuiz extends Fragment {
                 if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
                     correctNo++;
                 }
-               /* quizData = new QuizData(v.getContext());
+                quizData = new QuizData(v.getContext());
                 quizData.open();
                 quizQuestions.get(0).getQuiz().setDate(Calendar.getInstance().getTime().toString());
                 quizQuestions.get(0).getQuiz().setResult("Score:"+correctNo+"/6");
+                Log.d(DEBUG_TAG, "quiz: " + quizQuestions.get(0).getQuiz().toString());
                 new QuizDBwriter().execute(quizQuestions.get(0).getQuiz());
-                quizData.close();*/
+                quizData.close();
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, new FinishedQuizFragment(correctNo)).addToBackStack("main screen" ).commit();
 
             }
 
         }
-        public class QuizDBwriter extends AsyncTask<Quiz, Quiz> {
 
-            @Override
-            protected Quiz doInBackground(Quiz... quizzes) {
-                quizData.storeQuiz(quizzes[0]);
-                return quizzes[0];
-            }
+    }
+    public class QuizDBwriter extends AsyncTask<Quiz, Quiz> {
 
-            @Override
-            protected void onPostExecute(Quiz quiz) {
-                //dont think we need anything for this occasion
-            }
+        @Override
+        protected Quiz doInBackground(Quiz... quizzes) {
+            quizData.storeQuiz(quizzes[0]);
+            return quizzes[0];
+        }
+
+        @Override
+        protected void onPostExecute(Quiz quiz) {
+            //dont think we need anything for this occasion
         }
     }
 
