@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             questionData = new QuestionData( this.getApplicationContext());
             if (questionData != null)
                 questionData.open();
+
             InputStream in_s = getAssets().open("StateCapitals.csv");
 
             CSVReader reader = new CSVReader(new InputStreamReader(in_s));
