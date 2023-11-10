@@ -221,12 +221,12 @@ public class TakeQuiz extends Fragment {
                 if (selectedButton.getText().toString().equals(quizQuestions.get(questionNo - 1).getQuestion().getCapital())) {
                     correctNo++;
                 }
-                quizData = new QuizData(v.getContext());
+               /* quizData = new QuizData(v.getContext());
                 quizData.open();
                 quizQuestions.get(0).getQuiz().setDate(Calendar.getInstance().getTime().toString());
                 quizQuestions.get(0).getQuiz().setResult("Score:"+correctNo+"/6");
-                //new QuizDBwriter().execute(quizQuestions.get(0).getQuiz());
-                quizData.close();
+                new QuizDBwriter().execute(quizQuestions.get(0).getQuiz());
+                quizData.close();*/
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, new FinishedQuizFragment(correctNo)).addToBackStack("main screen" ).commit();
 
